@@ -18,7 +18,7 @@ client.once('ready', () => {
 
     let time = 0;
     setInterval(() => {
-            time++;
+            time = time + 5;
             let plurial = '';
             // Accorder au pluriel mdr
             if (time > 1) {
@@ -26,7 +26,7 @@ client.once('ready', () => {
             }
 
             client.user.setActivity('Pulling ' + time + ' time' + plurial);
-        }, 1000
+        }, 5000
     )
 
     fetchAllChannels(app, client);

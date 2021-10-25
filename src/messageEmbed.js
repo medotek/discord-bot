@@ -12,7 +12,10 @@ function sendMessageEmbed(embeds, channelId, client) {
         channel.send({
             "embed": embed
         })
-            .then(r => console.log(r))
+            .then(r => {
+                // Callback here
+                console.log(r.id)
+            })
             .catch(err => {
             console.log(err)
         })
