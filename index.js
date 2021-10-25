@@ -4,6 +4,7 @@ const {token} = require('./config.json');
 
 // Set up API REST
 const express = require('express');
+const cors = require('cors');
 const {postEmbedMessages} = require("./src/api/postEmbedMessages");
 const {fetchAllChannels} = require("./src/api/fetchAllChannels");
 
@@ -11,6 +12,10 @@ const {fetchAllChannels} = require("./src/api/fetchAllChannels");
 const client = new Client({intents: [Intents.FLAGS.GUILDS]});
 const app = express();
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:8000',
+    optionsSuccessStatus: 200
+}));
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {

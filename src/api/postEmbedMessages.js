@@ -10,7 +10,8 @@ function postEmbedMessages(app, client) {
         try {
             const embeds = [];
             if (req.body.embeds) {
-                req.body.embeds.forEach((item) => {
+                let parsedEmbed = JSON.parse(req.body.embeds);
+                parsedEmbed.forEach((item) => {
                     // Initialize embed object
                     let embed = {
                         title: item.title ?? '',
@@ -31,30 +32,30 @@ function postEmbedMessages(app, client) {
                 })
             }
 
-            let message = {};
-            if (req.body.message) {
-                message = {
-                    content: req.body.message.content ? req.body.message.content : ''
-                }
-                console.log(message);
+            let channel = null;
+            if (req.body.channel) {
+                channel = req.body.channel;
             }
 
-            let chanId = "";
-            // Does channelId exist
-            if (req.body.channel) {
-                // do
-                chanId = req.body.channel;
+            let message = {};
+            if (req.body.message) {
+                let parsedMessage = JSON.parse(req.body.message);
+                if (parsedMessage) {
+                    message = {
+                        content: parsedMessage.content ?? ''
+                    }
+                }
             }
 
             // Send embedMessage
-            if (embeds && chanId) {
-                sendMessageEmbed(embeds, chanId, client);
+            if (embeds && channel) {
+                sendMessageEmbed(embeds, channel, client);
                 res.sendStatus(200);
             } else {
                 res.send("The embed is empty");
                 res.sendStatus(400);
             }
-            // sendWebhook();
+
         } catch (error) {
             console.error('Error trying to send a message: ', error);
             res.sendStatus(400);
