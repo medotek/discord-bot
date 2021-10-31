@@ -7,13 +7,17 @@ const express = require('express');
 const cors = require('cors');
 const {postEmbedMessages} = require("./src/api/postEmbedMessages");
 const {fetchAllChannels} = require("./src/api/fetchAllChannels");
+const {deleteEmbedMessageById} = require("./src/api/deleteEmbedMessageById");
+const {getEmbedMessageById} = require("./src/api/getEmbedMessageById");
+const {editEmbedMessageById} = require("./src/api/editEmbedMessageById");
 
 // Create a new client instance
 const client = new Client({intents: [Intents.FLAGS.GUILDS]});
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:8000',
+    // origin: 'http://localhost:8000',
+    origin: '*',
     optionsSuccessStatus: 200
 }));
 
@@ -36,6 +40,9 @@ client.once('ready', () => {
 
     fetchAllChannels(app, client);
     postEmbedMessages(app, client);
+    deleteEmbedMessageById(app, client);
+    editEmbedMessageById(app, client);
+    getEmbedMessageById(app, client);
 });
 
 app.listen(8080, () => console.log(`Started server at http://localhost:8080!`));
